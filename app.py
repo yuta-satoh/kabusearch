@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup as bs4
 
 
 def kabuSearch():
-    df = pd.read_excel('test.xlsx', engine='openpyxl')
+    df = pd.read_excel('kabu_list.xlsx', engine='openpyxl')
 
     codes = df["code"]
 
@@ -32,9 +32,9 @@ def kabuSearch():
                     # print(f"{company[0].contents[2]}({code})に5%以上の値動きがあります")
                     if price_numbers:
                         price = price_numbers[0].replace(',', '')
-                        if 1000 <= float(price) - float(getPrices[index]) or -1000 >= float(price) - float(getPrices[index]):
-                            # print("1000円以上の値動きがあります")
-                            lineNotify(f"{company[0].contents[2]}({code})に5%以上の値動きがあります。\n1000円以上の値動きがあります。\n{full_url}")
+                        if 300 <= float(price) - float(getPrices[index]) or -300 >= float(price) - float(getPrices[index]):
+                            # print("300円以上の値動きがあります")
+                            lineNotify(f"{company[0].contents[2]}({code})に5%以上の値動きがあります。\n300円以上の値動きがあります。\n{full_url}")
                         else:
                             lineNotify(f"{company[0].contents[2]}({code})に5%以上の値動きがあります。\n{full_url}")
                     else:
