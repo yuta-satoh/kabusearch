@@ -2,10 +2,11 @@ import pandas as pd
 import requests
 import re
 import os
+import schedule
+from datetime import datetime, time as dt_time
 from dotenv import load_dotenv
 from time import sleep
 from bs4 import BeautifulSoup as bs4
-
 
 def kabuSearch():
     df = pd.read_excel('kabu_list.xlsx', engine='openpyxl')
@@ -44,7 +45,7 @@ def kabuSearch():
             # print(f"価格情報が見つかりませんでした: {code}")
             lineNotify("プログラムにエラーがあります")
 
-        sleep(1)
+        print("スクレイビング実行")
 
 def lineNotify(message):
     load_dotenv()
@@ -53,7 +54,15 @@ def lineNotify(message):
     headers = {'Authorization': f'Bearer {line_notify_token}'}
     data = {'message': f'{message}'}
     requests.post(line_notify_api, headers = headers, data = data)
+
+def run_scheduled_job():
+    now = datetime.now()
+    # 現在が平日かつ9時から17時の間であるかをチェック
+    if now.weekday() < 5 and dt_time(9, 0) <= now.time() <= dt_time(17, 0):
+        kabuSearch()
+
+schedule.every(1).minutes.do(run_scheduled_job)
     
 while(True):
-    kabuSearch()
-    sleep(60)
+    schedule.run_pending()
+    sleep(1)
