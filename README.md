@@ -30,7 +30,10 @@ python -m pip install -r requirements.txt
 https://notify-bot.line.me/ja/
 
 ### アクセストークン発行
-.envファイルにLINE_TOKEN変数で登録
+.envファイルを作成して環境変数を登録
+```
+LINE_TOKEN="0000000000000000000"
+```
 
 ## Pythonプロジェクト起動
 ```
